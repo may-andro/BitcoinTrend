@@ -5,20 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.mayandro.bitcointrend.R
 import com.mayandro.bitcointrend.utils.DialogUtils
 
 //This class is responsible for abstracting out common code from all fragments like showing alert dialog, setting view etc.
-abstract class BaseFragment<B : ViewBinding, VM : ViewModel>() : Fragment(){
+abstract class BaseFragment<B : ViewBinding>() : Fragment(){
+    abstract fun getViewBinding(): B
 
     lateinit var binding: B
 
-    protected val viewModel: VM by lazy { ViewModelProvider(this).get(getViewModelClass()) }
-
-    private val dialogUtils: DialogUtils by lazy { DialogUtils() }
+    val dialogUtils: DialogUtils by lazy {
+        DialogUtils()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,10 +27,6 @@ abstract class BaseFragment<B : ViewBinding, VM : ViewModel>() : Fragment(){
         binding = getViewBinding()
         return binding.root
     }
-
-    protected abstract fun getViewModelClass(): Class<VM>
-
-    abstract fun getViewBinding(): B
 
     fun clearDialogMessage() {
         dialogUtils.dismissDialog()
@@ -57,5 +52,4 @@ abstract class BaseFragment<B : ViewBinding, VM : ViewModel>() : Fragment(){
             context = requireContext()
         )
     }
-
 }

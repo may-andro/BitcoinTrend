@@ -1,0 +1,136 @@
+ext {
+    //Android
+    androidBuildToolsVersion = "29.0.3"
+    androidMinSdkVersion = 23
+    androidTargetSdkVersion = 29
+    androidCompileSdkVersion = 29
+
+    //Kotlin
+    kotlinVersion = '1.4.31'
+    coroutinesVersion = '1.4.1'
+    ktxVersion = '1.3.2'
+
+    //Retrofit
+    gsonVersion = '2.8.6'
+    okHttpVersion = '3.12.0'
+    retrofitVersion = '2.9.0'
+
+    //Room
+    roomVersion = '2.2.6'
+
+    //Koin
+    koinVersion = '2.2.2'
+
+    //Android Library
+    appCompatVersion = '1.2.0'
+    materialVersion = '1.4.0-alpha01'
+    constraintLayoutVersion = '2.0.4'
+
+    //Android Lifecycle
+    lifeCycleVersion = '2.3.0'
+
+    //Navigation
+    navigationVersion = '2.3.3'
+
+    //Glide
+    glideVersion = '4.12.0'
+
+    //Glide
+    pagingVersion = '3.0.0-beta01'
+
+    //MPAndroidChart
+    mpAndroidChartVersion = 'v3.1.0'
+
+    //Testing
+    jUnitVersion = '4.13.2'
+    espressoVersion = '3.3.0'
+
+    androidxCoreTestingVersion = '2.1.0'
+    truthVersion = '1.1'
+    mockitoKotlinVersion = '2.2.0'
+
+    //Development
+    leakCanaryVersion = '1.3.1'
+
+    kotlinDependencies = [
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            coroutinesCore:     "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}",
+            coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutinesVersion}",
+            ktx:                "androidx.core:core-ktx:${ktxVersion}"
+    ]
+
+    dbDependencies = [
+            room:             "androidx.room:room-runtime:${roomVersion}",
+            roomKtx:          "androidx.room:room-ktx:${roomVersion}",
+            roomCompiler:     "androidx.room:room-compiler:${roomVersion}"
+    ]
+
+    networkDependencies = [
+            gson:                "com.google.code.gson:gson:${gsonVersion}",
+            loggingInterceptor:  "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            retrofit:            "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConverter:   "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+    ]
+
+    koinDependencies = [
+            koin:                "org.koin:koin-android:${koinVersion}",
+            koinViewmodel:       "org.koin:koin-androidx-viewmodel:${koinVersion}",
+            koinFragment:        "org.koin:koin-androidx-fragment:${koinVersion}",
+            koinScope:           "org.koin:koin-androidx-scope:${koinVersion}",
+            koinWorkManager:     "org.koin:koin-androidx-workmanager:${koinVersion}",
+            koinTest:            "org.koin:koin-test:${koinVersion}",
+    ]
+
+    androidDependencies = [
+            appcompat:              "androidx.appcompat:appcompat:${appCompatVersion}",
+            constraintlayout:       "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
+            material:               "com.google.android.material:material:${materialVersion}",
+            palette:                "androidx.palette:palette:1.0.0"
+    ]
+
+    lifecycleDependencies = [
+            lifecycleViewmodelKtx:             "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifeCycleVersion}",
+            lifecycleLivedataKtx:              "androidx.lifecycle:lifecycle-livedata-ktx:${lifeCycleVersion}",
+            lifecycleViewmodelSavedState:      "androidx.lifecycle:lifecycle-viewmodel-savedstate:${lifeCycleVersion}",
+    ]
+
+    navigationDependencies = [
+            navigationFragment:           "androidx.navigation:navigation-fragment-ktx:${navigationVersion}",
+            navigationUiKtx:              "androidx.navigation:navigation-ui-ktx:${navigationVersion}",
+            navigationDynamicFeatures:    "androidx.navigation:navigation-dynamic-features-fragment:${navigationVersion}",
+            navigationTesting:            "androidx.navigation:navigation-testing:${navigationVersion}",
+    ]
+
+    glideDependencies = [
+            glide:             "com.github.bumptech.glide:glide:$glideVersion",
+            glideCompiler:         "'com.github.bumptech.glide:compiler:$glideVersion"
+    ]
+
+    chartDependencies = [
+            mpAndroidChart:                 "com.github.PhilJay:MPAndroidChart:$mpAndroidChartVersion"
+    ]
+
+    pagerDependencies = [
+            paging:             "androidx.paging:paging-runtime:$pagingVersion",
+            pagingTest:         "androidx.paging:paging-common:$pagingVersion"
+    ]
+
+    testDependencies = [
+            junit:              "junit:junit:${jUnitVersion}",
+            truth:              "com.google.truth:truth:${truthVersion}",
+            mockito:            "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
+            mockk:              "io.mockk:mockk:1.10.6",
+    ]
+
+    androidTestDependencies = [
+            junit:                "androidx.test.ext:junit:1.1.2",
+            espresso:              "androidx.test.espresso:espresso-core:${espressoVersion}",
+            androidxCoreTesting:   "androidx.arch.core:core-testing:${androidxCoreTestingVersion}",
+            coroutineTest:         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${coroutinesVersion}",
+            truth:                 "com.google.truth:truth:${truthVersion}",
+            hilt:                  "com.google.dagger:hilt-android-testing:2.33-beta",
+            hiltComplier:          "com.google.dagger:hilt-android-compiler:2.32-alpha",
+            mockk:                 "io.mockk:mockk-android:1.10.6"
+    ]
+
+}

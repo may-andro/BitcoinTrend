@@ -50,6 +50,7 @@ class GetChartDataUseCaseTest {
 
             //STUB calls
             coEvery { chartRepository.getMarketChart(
+                chartName = chartName,
                 timespan = timespan,
                 rollingAverage = rollingAverage,
                 format = format

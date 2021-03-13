@@ -14,7 +14,7 @@ import retrofit2.Response
 
 @RunWith(JUnit4::class)
 class RemoteDataSourceTest {
-    private val summaryResponse = ChartResponse(
+    private val chartResponse = ChartResponse(
         status = "",
         name = "",
         unit = "",
@@ -23,10 +23,11 @@ class RemoteDataSourceTest {
         values = listOf()
     )
 
-    private val networkSummaryResponse = NetworkStatus.Success(summaryResponse)
+    private val networkchartResponse = NetworkStatus.Success(chartResponse)
 
     @Test
     fun getMarketPriceChart() {
+        val chartName = ""
         val timeSpan = ""
         val rollingAverage = ""
         val format = ""
@@ -34,15 +35,15 @@ class RemoteDataSourceTest {
 
         val remoteDataSource = mockk<RemoteDataSourceImpl>()
         //STUB calls
-        coEvery { remoteDataSource.getMarketPriceChart(timeSpan, rollingAverage, format) } returns networkSummaryResponse
+        coEvery { remoteDataSource.getMarketPriceChart(chartName, timeSpan, rollingAverage, format) } returns networkchartResponse
 
         //Execute the code
-        val result = runBlocking { remoteDataSource.getMarketPriceChart(timeSpan, rollingAverage, format) }
+        val result = runBlocking { remoteDataSource.getMarketPriceChart(chartName, timeSpan, rollingAverage, format) }
 
         //Verify
-        coVerify { remoteDataSource.getMarketPriceChart(timeSpan, rollingAverage, format) }
+        coVerify { remoteDataSource.getMarketPriceChart(chartName, timeSpan, rollingAverage, format) }
 
-        assertEquals(networkSummaryResponse, result)
+        assertEquals(networkchartResponse, result)
     }
 
     @Test
@@ -51,10 +52,10 @@ class RemoteDataSourceTest {
 
         val apiRequest = mockk<Response<ChartResponse>>()
 
-        val expectedResponse =  NetworkStatus.Success(summaryResponse)
+        val expectedResponse =  NetworkStatus.Success(chartResponse)
 
         //STUB calls
-        every { apiRequest.body() } returns summaryResponse
+        every { apiRequest.body() } returns chartResponse
         every { apiRequest.isSuccessful } returns true
         coEvery { ApiResponseHandler.safeApiCall{ apiRequest } } returns expectedResponse
 
@@ -69,7 +70,7 @@ class RemoteDataSourceTest {
 
         val apiRequest = mockk<Response<ChartResponse>>()
 
-        val expectedResponse =  NetworkStatus.Error(UNKNOWN_NETWORK_EXCEPTION, data = summaryResponse)
+        val expectedResponse =  NetworkStatus.Error(UNKNOWN_NETWORK_EXCEPTION, data = chartResponse)
 
         //STUB calls
         every { apiRequest.isSuccessful } returns false

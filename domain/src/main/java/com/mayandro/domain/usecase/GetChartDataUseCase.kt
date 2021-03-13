@@ -11,7 +11,7 @@ class GetChartDataUseCase(
 ): UseCase<GetChartDataUseCase.Param, ChartResponse>() {
 
     data class Param(
-        val chartName: String?,
+        val chartName: String,
         val timespan: String?,
         val rollingAverage: String?,
         val format: String?,
@@ -19,6 +19,7 @@ class GetChartDataUseCase(
 
     override suspend fun run(param: Param): Flow<NetworkStatus<ChartResponse>> {
         return flow { emit(chartRepository.getMarketChart(
+            chartName = param.chartName,
             timespan = param.timespan,
             rollingAverage = param.rollingAverage,
             format = param.format

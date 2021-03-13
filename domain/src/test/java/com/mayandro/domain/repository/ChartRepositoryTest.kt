@@ -50,6 +50,7 @@ class ChartRepositoryTest {
 
         //STUB calls
         coEvery { remoteDataSource.getMarketPriceChart(
+            chartName = chartName,
             timespan = timespan,
             rollingAverage = rollingAverage,
             format = format
@@ -58,7 +59,8 @@ class ChartRepositoryTest {
         coEvery { dataSourceFactory.retrieveRemoteDataStore() } returns remoteDataSource
 
         //Execute the code
-        val getProductDetail = chartRepository.getMarketChart(
+        val chartResponse = chartRepository.getMarketChart(
+            chartName = chartName,
             timespan = timespan,
             rollingAverage = rollingAverage,
             format = format
@@ -67,6 +69,6 @@ class ChartRepositoryTest {
         //Verify
         coVerify { dataSourceFactory.retrieveRemoteDataStore() }
 
-        assertEquals(getProductDetail, mockServerData)
+        assertEquals(chartResponse, mockServerData)
     }
 }

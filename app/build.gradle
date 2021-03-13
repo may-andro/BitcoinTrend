@@ -35,6 +35,12 @@ android {
         viewBinding true
     }
 
+    packagingOptions {
+        exclude "**/attach_hotspot_windows.dll"
+        exclude "META-INF/licenses/**"
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
+    }
 }
 
 dependencies {
@@ -87,7 +93,7 @@ dependencies {
     androidTestImplementation androidTestDependencies.junit
     androidTestImplementation androidTestDependencies.mockk
     androidTestImplementation androidTestDependencies.espresso
-    androidTestImplementation androidTestDependencies.androidxCoreTesting
+    androidTestImplementation androidTestDependencies.espressoContrib
     androidTestImplementation androidTestDependencies.androidxCoreTesting
     androidTestImplementation androidTestDependencies.coroutineTest
     androidTestImplementation androidTestDependencies.truth

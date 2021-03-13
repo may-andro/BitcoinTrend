@@ -17,7 +17,7 @@ object ApiResponseHandler {
                     return NetworkStatus.Success(response.body())
                 }
             }
-            return NetworkStatus.Error(response.message())
+            return NetworkStatus.Error("[Error Code: ${response.code()}] ${response.message()}")
         } catch (e: Exception) {
             return when (e) {
                 is ConnectException -> {

@@ -1,6 +1,6 @@
 package com.mayandro.remote.utils
 
-const val BASE_URL = "https://api.blockchain.info/charts/"
+const val BASE_URL = "https://api.blockchain.info/"
 
 const val REQUEST_TIMEOUT = 10
 

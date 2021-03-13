@@ -5,6 +5,7 @@ import com.mayandro.remote.apimodel.ChartResponse
 
 interface ChartRepository {
     suspend fun getMarketChart(
+        chartName: String,
         timespan: String?,
         rollingAverage: String?,
         format: String?,

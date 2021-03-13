@@ -10,10 +10,4 @@
         android:name="com.mayandro.bitcointrend.ui.home.dashboard.DashboardFragment"
         android:label="DashboardFragment"
         tools:layout="@layout/fragment_dashboard"/>
-
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.mayandro.bitcointrend.ui.home.detail.DetailFragment"
-        android:label="DetailFragment"
-        tools:layout="@layout/fragment_detail"/>
 </navigation>

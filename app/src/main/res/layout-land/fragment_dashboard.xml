@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/fragment_dashboard_scene">
+    app:layoutDescription="@xml/fragment_land_dashboard_scene">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineTop"
@@ -38,8 +39,8 @@
         android:id="@+id/guidelineCustomerInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 
     <com.google.android.material.card.MaterialCardView
@@ -77,7 +78,7 @@
         android:focusable="true"
         android:padding="12dp"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintEnd_toStartOf="@id/guidelineCustomerInfo"
         app:layout_constraintTop_toBottomOf="@id/guidelineTop"
         app:srcCompat="@drawable/ic_baseline_search_24" />
 
@@ -105,8 +106,8 @@
         app:layout_constraintBottom_toTopOf="@+id/textTotalBalanceValue"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/cardProfileImageContainer"
+        app:layout_constraintStart_toEndOf="@id/guidelineCustomerInfo"
+        app:layout_constraintTop_toBottomOf="@id/guidelineTop"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -122,8 +123,9 @@
         app:layout_constraintBottom_toTopOf="@+id/textBalanceGrowth"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintStart_toEndOf="@id/guidelineCustomerInfo"
         app:layout_constraintTop_toBottomOf="@+id/textTotalBalanceLabel" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textBalanceGrowth"
@@ -137,11 +139,10 @@
         android:text="+$530.00"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/textColorGreen"
-        app:layout_constraintBottom_toTopOf="@id/guidelineCustomerInfo"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/textTotalBalanceValue" />
+        app:layout_constraintStart_toEndOf="@id/guidelineCustomerInfo"
+        app:layout_constraintTop_toBottomOf="@id/textTotalBalanceValue" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textStatsLabel"
@@ -160,8 +161,8 @@
         android:text="Popular Stats"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/textColorBlack"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/guidelineCustomerInfo" />
+        app:layout_constraintStart_toEndOf="@id/guidelineCustomerInfo"
+        app:layout_constraintTop_toBottomOf="@+id/textBalanceGrowth" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageFilter"
@@ -180,16 +181,16 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
-        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintEnd_toStartOf="@id/guidelineCustomerInfo"
         app:layout_constraintStart_toEndOf="@id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@id/textStatsLabel"
-        app:layout_constraintWidth_percent="0.6">
+        app:layout_constraintTop_toBottomOf="@id/cardProfileImageContainer">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -262,15 +263,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/cardStat"
-        app:layout_constraintWidth_percent="0.3" />
+        app:layout_constraintWidth_percent="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewStats"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@id/guidelineCustomerInfo"
+        app:layout_constraintTop_toBottomOf="@id/textStatsLabel"
         tools:listitem="@layout/item_stats" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -279,8 +281,10 @@
         android:layout_height="wrap_content"
         android:contentDescription="Pdf Download"
         android:src="@drawable/ic_baseline_cloud_download_24"
-        app:fabSize="auto"
-        app:tint="@color/white"
+        app:fabSize="mini"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+        app:layout_constraintBottom_toBottomOf="@id/cardProfileImageContainer"
+        app:tint="@color/white" />
+
 </androidx.constraintlayout.motion.widget.MotionLayout>

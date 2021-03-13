@@ -9,12 +9,13 @@ class ChartRepositoryImpl (
 ): ChartRepository {
 
     override suspend fun getMarketChart(
+        chartName: String,
         timespan: String?,
         rollingAverage: String?,
         format: String?,
     ): NetworkStatus<ChartResponse> {
         return dataSourceFactory.retrieveRemoteDataStore().getMarketPriceChart(
-            timespan, rollingAverage, format
+            chartName, timespan, rollingAverage, format
         )
     }
 }

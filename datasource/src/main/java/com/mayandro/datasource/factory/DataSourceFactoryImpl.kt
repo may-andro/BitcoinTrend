@@ -2,7 +2,7 @@ package com.mayandro.datasource.factory
 
 import com.mayandro.remote.RemoteDataSource
 
-class DataSourceFactoryImpl (
+internal class DataSourceFactoryImpl (
     private val remoteDataSource: RemoteDataSource,
 ): DataSourceFactory {
     override fun retrieveRemoteDataStore(): RemoteDataSource {

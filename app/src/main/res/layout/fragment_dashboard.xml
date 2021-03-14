@@ -48,23 +48,23 @@
         android:layout_height="?attr/actionBarSize"
         android:checkable="true"
         android:clickable="true"
-        android:elevation="16dp"
         android:focusable="true"
-        app:cardCornerRadius="160dp"
-        app:cardElevation="16dp"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="8dp"
+        android:theme="@style/Theme.MaterialComponents.Light"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/guidelineTop">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cardImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile" />
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/profile"/>
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -87,7 +87,7 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_marginHorizontal="16dp"
         android:gravity="center"
-        android:text="Block Chain Stats"
+        android:text="@string/dashboard_title_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/textColorBlack"
         app:layout_constraintEnd_toStartOf="@id/imageSearch"
@@ -99,7 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Total Balance"
+        android:text="@string/total_balance"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/textColorGrey"
         app:layout_constraintBottom_toTopOf="@+id/textTotalBalanceValue"
@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="$7,340.00"
+        android:text="@string/fake_balance"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/colorPrimaryVariant"
         android:textStyle="bold"
@@ -134,7 +134,7 @@
         android:drawablePadding="4dp"
         android:drawableTint="@color/textColorGreen"
         android:gravity="center"
-        android:text="+$530.00"
+        android:text="@string/fake_increment"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/textColorGreen"
         app:layout_constraintBottom_toTopOf="@id/guidelineCustomerInfo"
@@ -157,7 +157,7 @@
         android:focusable="true"
         android:gravity="center"
         android:padding="8dp"
-        android:text="Popular Stats"
+        android:text="@string/popular_stats"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/textColorBlack"
         app:layout_constraintStart_toEndOf="@id/guidelineLeft"
@@ -282,6 +282,7 @@
         android:id="@+id/recyclerViewStats"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"

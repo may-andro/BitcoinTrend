@@ -120,7 +120,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
                             it.title
                         }
 
-                        var selectedItem = list.indexOf(dashboardViewModel.selectedFilterSelectorModel)
+                        val selectedItem = list.indexOf(dashboardViewModel.selectedFilterSelectorModel)
                         emit(Triple(list, stringList, selectedItem))
                     }
                     .flowOn(Dispatchers.Default)
@@ -219,14 +219,14 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
     private fun showLoadingUiState() {
         binding.imageRefresh.rotate()
         binding.lineChart.isVisible = false
-        binding.textStatsCardValue.text = "Loading...."
-        binding.textStatsCardLabel.text = "Sit tight, we are getting the latest information for you."
+        binding.textStatsCardValue.text = getString(R.string.loading)
+        binding.textStatsCardLabel.text = getString(R.string.loading_message)
     }
 
     private fun showErrorUiState(error: String) {
         binding.imageRefresh.clearAnimation()
         (binding.recyclerViewStats.adapter as StatsAdapter).dataSet = emptyList()
-        binding.textStatsCardValue.text = "Oooops...."
+        binding.textStatsCardValue.text = getString(R.string.error_title)
         binding.textStatsCardLabel.text = error
         binding.lineChart.isVisible = false
     }
@@ -368,7 +368,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
             fillColor = ContextCompat.getColor(requireContext(), R.color.white)
             highLightColor = ContextCompat.getColor(requireContext(), R.color.white)
 
-            val formatter = IndexAxisValueFormatter()
             fillFormatter = IFillFormatter { _, _ ->
                 binding.lineChart.axisLeft.axisMinimum
             }
@@ -384,7 +383,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
     private fun callServerForData() {
         dashboardViewModel.getChartData(
             chartName = dashboardViewModel.selectedStatsSelectorModel.value,
-            timespan = dashboardViewModel.selectedFilterSelectorModel?.value ?: "4weeks",
+            timespan = dashboardViewModel.selectedFilterSelectorModel.value,
             rollingAverage = "8hours",
             format = "json"
         )

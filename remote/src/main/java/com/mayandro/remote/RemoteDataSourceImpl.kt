@@ -5,7 +5,7 @@ import com.mayandro.remote.apimodel.ChartResponse
 import com.mayandro.remote.retrofit.RetrofitApi
 import com.mayandro.remote.utils.ApiResponseHandler.safeApiCall
 
-class RemoteDataSourceImpl(
+internal class RemoteDataSourceImpl(
     private val retrofit: RetrofitApi
 ): RemoteDataSource {
     override suspend fun getMarketPriceChart(

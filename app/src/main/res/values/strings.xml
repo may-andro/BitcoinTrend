@@ -2,4 +2,15 @@
     <string name="app_name">BitcoinTrend</string>
 
     <string name="close">Close</string>
+
+    <string name="loading">Loading....</string>
+    <string name="loading_message">Sit tight, we are getting the latest information for you.</string>
+    <string name="error_title">Ooops....</string>
+
+    <string name="dashboard_title_title">Block Chain Stats</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="fake_balance">$7,340.00</string>
+    <string name="popular_stats">Popular Stats</string>
+
+    <string name="fake_increment">+$530.00</string>
 </resources>

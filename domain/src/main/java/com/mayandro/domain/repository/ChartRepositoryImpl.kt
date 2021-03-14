@@ -4,7 +4,7 @@ import com.mayandro.common.network.NetworkStatus
 import com.mayandro.datasource.factory.DataSourceFactory
 import com.mayandro.remote.apimodel.ChartResponse
 
-class ChartRepositoryImpl (
+internal class ChartRepositoryImpl (
     private val dataSourceFactory: DataSourceFactory
 ): ChartRepository {
 

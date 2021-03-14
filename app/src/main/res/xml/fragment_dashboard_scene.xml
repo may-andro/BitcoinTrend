@@ -100,12 +100,21 @@
             <Layout
                 android:layout_width="0dp"
                 android:layout_height="?attr/actionBarSize"
+                motion:layout_constraintDimensionRatio="1:1"
                 motion:layout_constraintEnd_toStartOf="parent"
                 motion:layout_constraintTop_toBottomOf="@id/guidelineTop" />
         </Constraint>
 
         <Constraint android:id="@+id/guidelineCustomerInfo">
             <Layout motion:layout_constraintGuide_percent="1" />
+        </Constraint>
+
+        <Constraint android:id="@+id/imageFilter">
+            <PropertySet android:alpha="0" />
+        </Constraint>
+
+        <Constraint android:id="@+id/textStatsLabel">
+            <PropertySet android:alpha="0" />
         </Constraint>
 
         <Constraint android:id="@+id/textScreenTitle">

@@ -25,6 +25,7 @@ import com.mayandro.bitcointrend.utils.SpacesItemDecoration
 import com.mayandro.common.CHART_FORMAT
 import com.mayandro.common.LIST_FORMAT
 import com.mayandro.common.dataandtime.formatUnixTimeLong
+import com.mayandro.common.extensions.rotate
 import com.mayandro.common.network.NetworkStatus
 import com.mayandro.remote.apimodel.ChartResponse
 import com.mayandro.remote.apimodel.ChartValue
@@ -53,12 +54,19 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
         setUpInfoImage()
         setUpSearchImage()
         setUpFabClick()
+        setUpRefreshClick()
 
         dashboardViewModel.chartResponse.observe(viewLifecycleOwner) {
             handleUiState(it)
         }
 
         if(savedInstanceState == null) callServerForData()
+    }
+
+    private fun setUpRefreshClick() {
+        binding.imageRefresh.setOnClickListener {
+            callServerForData()
+        }
     }
 
     private fun setUpFabClick() {
@@ -209,18 +217,22 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
     }
 
     private fun showLoadingUiState() {
+        binding.imageRefresh.rotate()
         binding.lineChart.isVisible = false
-        binding.textStatsCardLabel.text = "Loading...."
-        binding.textStatsCardValue.text = "Sit tight, we are getting the latest information for you."
+        binding.textStatsCardValue.text = "Loading...."
+        binding.textStatsCardLabel.text = "Sit tight, we are getting the latest information for you."
     }
 
     private fun showErrorUiState(error: String) {
+        binding.imageRefresh.clearAnimation()
+        (binding.recyclerViewStats.adapter as StatsAdapter).dataSet = emptyList()
         binding.textStatsCardValue.text = "Oooops...."
         binding.textStatsCardLabel.text = error
         binding.lineChart.isVisible = false
     }
 
     private fun showSuccessUiState(chartResponse: ChartResponse) {
+        binding.imageRefresh.clearAnimation()
         binding.textStatsCardLabel.text = "${chartResponse.values.last().y} ${chartResponse.unit}"
         binding.textStatsCardValue.text = chartResponse.name
         fillChartWithData(chartResponse.values, chartResponse.name)

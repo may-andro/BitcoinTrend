@@ -19,6 +19,10 @@ class DashboardViewModel(
     var selectedStatsSelectorModel: SelectorModel = SelectorModel(title = "Market Price", value = "market-price")
     var selectedFilterSelectorModel: SelectorModel =  SelectorModel(title = "This Week", value = "1weeks")
 
+    init {
+        chartResponseLiveData.postValue(NetworkStatus.Loading())
+    }
+
     val chartResponse : LiveData<NetworkStatus<ChartResponse>>
         get() = chartResponseLiveData
 
@@ -28,6 +32,8 @@ class DashboardViewModel(
         rollingAverage: String?,
         format: String?,
     ) {
+        chartResponseLiveData.postValue(NetworkStatus.Loading())
+
         val param = GetChartDataUseCase.Param(
             chartName = chartName,
             timespan = timespan,

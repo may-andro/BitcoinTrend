@@ -4,11 +4,11 @@ A sample app for the charts in clean arch.
 
 # Concept Used:
 ## 1. Architecture: The app use MVVM Clean arch with SOLID principle with Layer Modularization. The app has following modules.
-a. Common Module: This module is responsible for providing common logic to whole app.
-b. Network Module: This module deals with all the networking based code used in the app.
-c. Datasource Module: This module acts as facotry for dillferent kind of data source(Remote and Local).
-d. Domian Module: This module contains the business logic of the app. This has repository which all the business logic and usecase for each feature. 
-e. Presentation/UI Module: This module has all the UI related logic and dummy views.
+### a. Common Module: This module is responsible for providing common logic to whole app.
+### b. Network Module: This module deals with all the networking based code used in the app.
+### c. Datasource Module: This module acts as facotry for dillferent kind of data source(Remote and Local).
+### d. Domian Module: This module contains the business logic of the app. This has repository which all the business logic and usecase for each feature. 
+### e. Presentation/UI Module: This module has all the UI related logic and dummy views.
 
 
 ## 2. Orientation change: The orientation change has been handeled gracefully by ViewModel. Refer the screen shots in Responsive Layout section.

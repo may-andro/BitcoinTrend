@@ -1,28 +1,17 @@
 package com.mayandro.bitcointrend.ui.home.dashboard
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IFillFormatter
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.mayandro.bitcointrend.R
 import com.mayandro.bitcointrend.databinding.FragmentDashboardBinding
 import com.mayandro.bitcointrend.ui.base.BaseFragment
 import com.mayandro.bitcointrend.ui.home.dashboard.adapter.StatsAdapter
-import com.mayandro.bitcointrend.ui.home.dashboard.uimodel.ChartDataModel
 import com.mayandro.bitcointrend.ui.home.dashboard.uimodel.SelectorModel
+import com.mayandro.bitcointrend.utils.ChartUtils
 import com.mayandro.bitcointrend.utils.SpacesItemDecoration
-import com.mayandro.common.CHART_FORMAT
 import com.mayandro.common.LIST_FORMAT
 import com.mayandro.common.dataandtime.formatUnixTimeLong
 import com.mayandro.common.extensions.rotate
@@ -32,11 +21,14 @@ import com.mayandro.remote.apimodel.ChartValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInteractor {
+class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
     private val dashboardViewModel: DashboardViewModel by viewModel()
+
+    private val chartUtils: ChartUtils by inject()
 
     override fun getViewBinding(): FragmentDashboardBinding = FragmentDashboardBinding.inflate(
         layoutInflater
@@ -44,9 +36,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dashboardViewModel.viewInteractor = this
 
-        setUpChart()
+        chartUtils.setUpChart(binding.lineChart)
         setUpStatsSelector()
         setUpFilterSelector()
         setUpRecyclerView()
@@ -63,6 +54,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
         if(savedInstanceState == null) callServerForData()
     }
 
+    /*
+     View Setups
+    */
     private fun setUpRefreshClick() {
         binding.imageRefresh.setOnClickListener {
             callServerForData()
@@ -74,10 +68,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
             showUpcomingDialog()
         }
     }
-
-    /*
-     View Setups
-    */
 
     private fun setUpSearchImage() {
         binding.imageSearch.setOnClickListener {
@@ -156,44 +146,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
         }
     }
 
-    private fun clearLineChart() {
-        binding.lineChart.clear()
-        binding.lineChart.clearAnimation()
-    }
-
-    private fun setUpChart() {
-        binding.lineChart.apply {
-            setViewPortOffsets(
-                resources.getDimension(R.dimen.space2dp),
-                0f,
-                resources.getDimension(R.dimen.space2dp),
-                resources.getDimension(R.dimen.space16dp)
-            )
-            // no description text
-            description.isEnabled = false
-
-            // enable touch gestures
-            setTouchEnabled(false)
-
-            dragDecelerationFrictionCoef = 0.9f
-
-            // enable scaling and dragging
-            isDragEnabled = false
-            setScaleEnabled(false)
-            setDrawGridBackground(false)
-            isHighlightPerDragEnabled = false
-
-            isLogEnabled = false
-
-            legend.isEnabled = false
-
-            // if disabled, scaling can be done on x- and y-axis separately
-            setPinchZoom(false)
-
-            binding.lineChart.axisRight.isEnabled = false
-            binding.lineChart.axisLeft.isEnabled = false
-        }
-    }
 
     private fun handleUiState(networkStatusResponse: NetworkStatus<ChartResponse>?) {
         when (networkStatusResponse) {
@@ -258,123 +210,15 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
 
     private fun fillChartWithData(values: List<ChartValue>, name: String) {
         lifecycleScope.launch {
-            getChartEntries(values)
+            dashboardViewModel.getChartEntries(values)
                 .flowOn(Dispatchers.IO)
                 .collect {
-                    fillChart(it, name)
+                    chartUtils.fillChart(binding.lineChart, it, name)
                 }
         }
     }
 
-    private fun getChartEntries(values: List<ChartValue>): Flow<ChartDataModel> {
-        return flow {
-            val entries: MutableList<Entry> = mutableListOf()
-            val xAxisList: MutableList<String> = mutableListOf()
-            var yAxisMax = 0f
-            var yAxisMin = -1f
 
-            values.forEach {
-                xAxisList.add(it.x.formatUnixTimeLong(CHART_FORMAT))
-                //Find Max
-                if (yAxisMax < it.y) yAxisMax = it.y
-                //Find Min
-                if (yAxisMin == -1f || yAxisMin > it.y) yAxisMin = it.y
-
-                val entry = Entry((xAxisList.size - 1).toFloat(), it.y)
-                entries.add(entry)
-            }
-
-            emit(
-                ChartDataModel(
-                    yAxisMax = yAxisMax,
-                    yAxisMin = yAxisMin,
-                    xAxisList = xAxisList,
-                    entries = entries
-                )
-            )
-        }
-    }
-
-    private fun fillChart(chartDataModel: ChartDataModel, name: String) {
-        getXAxisConfig(chartDataModel.xAxisList)
-        getYAxisConfig(chartDataModel.yAxisMax, chartDataModel.yAxisMin)
-        val lineDataSet = getLineDataSet(entries = chartDataModel.entries, chartName = name)
-
-        val lineData = LineData(lineDataSet)
-        lineData.setValueTextColor(Color.WHITE)
-        lineData.setValueTextSize(9f)
-        lineDataSet.setDrawFilled(true)
-        val fillGradient = ContextCompat.getDrawable(requireContext(), R.drawable.white_gradient)
-        lineDataSet.fillDrawable = fillGradient
-
-        binding.lineChart.apply {
-            data = lineData
-            animateY(100)
-            invalidate()
-            isVisible = true
-        }
-    }
-
-    private fun getXAxisConfig(xAxisList: List<String>) {
-        val xAxis: XAxis = binding.lineChart.xAxis
-        xAxis.apply {
-            axisLineWidth = 2f
-            axisLineColor = ContextCompat.getColor(requireContext(), R.color.white)
-            position = XAxis.XAxisPosition.BOTTOM
-            isGranularityEnabled = false
-            granularity = 1f
-            textSize = 11f
-
-            textColor = Color.WHITE
-            setDrawGridLines(false)
-            setDrawAxisLine(false)
-            setAvoidFirstLastClipping(true)
-            setLabelCount(5, false)
-
-            valueFormatter = IndexAxisValueFormatter(xAxisList)
-        }
-    }
-
-    private fun getYAxisConfig(maxValue: Float, minValue: Float) {
-        val leftAxis: YAxis = binding.lineChart.axisLeft
-        leftAxis.apply {
-            textColor = ColorTemplate.getHoloBlue()
-            axisMaximum = maxValue * 1.25f
-            axisMinimum = minValue * 0.55f
-            setDrawGridLines(false)
-            isGranularityEnabled = true
-            setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
-        }
-    }
-
-    private fun getLineDataSet(entries: List<Entry>, chartName: String): LineDataSet {
-        val lineDataSet = LineDataSet(entries, chartName)
-
-        lineDataSet.apply {
-            axisDependency = YAxis.AxisDependency.LEFT
-            color = ContextCompat.getColor(requireContext(), R.color.white)
-
-            setDrawCircleHole(false)
-            setDrawCircles(false)
-            setDrawValues(false)
-            setDrawIcons(false)
-            setDrawFilled(false)
-
-            mode = LineDataSet.Mode.CUBIC_BEZIER
-            cubicIntensity = 0.2f
-            valueTextSize = 9f
-            lineWidth = 3f
-            fillAlpha = 65
-            fillColor = ContextCompat.getColor(requireContext(), R.color.white)
-            highLightColor = ContextCompat.getColor(requireContext(), R.color.white)
-
-            fillFormatter = IFillFormatter { _, _ ->
-                binding.lineChart.axisLeft.axisMinimum
-            }
-        }
-
-        return lineDataSet
-    }
 
     /*
      Server Calls
@@ -387,7 +231,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(), DashboardInt
             rollingAverage = "8hours",
             format = "json"
         )
-        clearLineChart()
+        chartUtils.clearLineChart(binding.lineChart)
     }
 
     /*
